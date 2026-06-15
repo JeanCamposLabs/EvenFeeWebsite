@@ -47,4 +47,50 @@
   /* Current year in the footer */
   var year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
+
+  /* Contact form — AJAX submit with an inline success state.
+     Falls back to a normal POST (with redirect to thanks.html) when JS is off. */
+  var form = document.getElementById("contact-form");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      var action = form.getAttribute("action") || "";
+      // Not configured yet: let the browser submit normally so it's obvious in setup.
+      if (action.indexOf("YOUR_FORM_ID") !== -1) return;
+
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var success = form.parentNode.querySelector(".form__success");
+      var prev = btn ? btn.innerHTML : "";
+      var err = form.querySelector(".form__error");
+      if (err) err.remove();
+      if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+
+      var showError = function (msg) {
+        var p = document.createElement("p");
+        p.className = "form__error";
+        p.setAttribute("role", "alert");
+        p.textContent = msg;
+        form.appendChild(p);
+      };
+
+      fetch(action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      })
+        .then(function (res) {
+          if (res.ok) {
+            form.hidden = true;
+            if (success) { success.hidden = false; success.setAttribute("tabindex", "-1"); success.focus(); }
+          } else {
+            return res.json().then(function (d) {
+              showError(d && d.errors ? d.errors.map(function (x) { return x.message; }).join(", ")
+                                      : "Sorry, something went wrong. Please try again.");
+            });
+          }
+        })
+        .catch(function () { showError("Network error — please try again in a moment."); })
+        .finally(function () { if (btn) { btn.disabled = false; btn.innerHTML = prev; } });
+    });
+  }
 })();

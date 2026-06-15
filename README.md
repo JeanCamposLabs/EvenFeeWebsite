@@ -88,6 +88,23 @@ pip install cairosvg
 python3 scripts/generate-assets.py
 ```
 
+### Contact form
+The **Contact** section of `index.html` has a real form that posts to
+[Formspree](https://formspree.io) — a free form backend, so there's no server to run and
+visitors don't need an email client. To activate it:
+
+1. Create a free Formspree account, add a form, and set its destination to your monitored
+   inbox (e.g. **hello@evenfee.com**).
+2. Copy the form endpoint it gives you (looks like `https://formspree.io/f/abcdwxyz`).
+3. In `index.html`, replace **`YOUR_FORM_ID`** in the form's `action=` with your form ID.
+
+Submissions are then emailed to you. With JavaScript on, the form shows an inline "thank
+you" without a page reload; with JS off it falls back to a normal POST and redirects to
+`thanks.html`. A hidden honeypot field blocks basic spam.
+
+> Prefer no signup? [Web3Forms](https://web3forms.com) works the same way — set the
+> `action` to `https://api.web3forms.com/submit` and add a hidden `access_key` field.
+
 ---
 
 ## Deploy
@@ -141,8 +158,8 @@ Import the repo, **Framework Preset: _Other_**, **Build command: _(none)_**,
 ## ✅ Before you go live / submit to Amazon
 
 - [ ] **Run `configure.sh`** with your real brand name, email, and final URL.
-- [ ] **Use a real, monitored inbox** for the contact email — Amazon and prospects
-      will email it. The contact CTAs are `mailto:` links.
+- [ ] **Wire up the contact form** (see [Contact form](#contact-form) below) and use a
+      **real, monitored inbox** — Amazon and prospects reach you through it.
 - [ ] **Confirm the hosting sub-processor** named in `privacy.html`. It currently
       lists **Amazon Web Services (AWS), EU region** as a placeholder — change it if
       you host elsewhere (search the file for `AWS`; there's a `TODO` comment there).

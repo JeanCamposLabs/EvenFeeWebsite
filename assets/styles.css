@@ -646,3 +646,56 @@ strong { color: var(--ink); font-weight: 700; }
 .center { text-align: center; }
 .mt-0 { margin-top: 0; }
 .nowrap { white-space: nowrap; }
+
+/* ----- Contact section + form -------------------------------------------- */
+.contact {
+  background: linear-gradient(135deg, var(--brand-700), var(--brand-600));
+  border-radius: var(--radius-lg);
+  padding: clamp(26px, 4vw, 56px);
+  color: #eaf1ff;
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  gap: 30px;
+}
+@media (min-width: 900px) {
+  .contact { grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+}
+.contact__intro h2 { color: #fff; }
+.contact__intro p { margin-top: 14px; color: #dbe5fb; max-width: 46ch; }
+.contact__list { list-style: none; padding: 0; margin-top: 22px; display: grid; gap: 12px; }
+.contact__list li { display: flex; gap: 10px; align-items: center; color: #eaf1ff; font-weight: 550; }
+.contact__list svg { width: 20px; height: 20px; color: #6ee7b7; flex: none; }
+
+.contact__card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: clamp(20px, 3vw, 32px);
+  box-shadow: var(--shadow-lg);
+}
+
+.form__row { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+.form label { font-weight: 650; color: var(--ink); font-size: .95rem; }
+.form .opt { color: var(--muted); font-weight: 500; }
+.form input,
+.form textarea {
+  width: 100%;
+  padding: .72em .85em;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1rem;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.form input:focus,
+.form textarea:focus { outline: none; border-color: var(--brand-500); box-shadow: var(--ring); }
+.form textarea { resize: vertical; min-height: 104px; }
+.form__hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }
+.form button[type="submit"] { margin-top: 4px; }
+.form__fineprint { margin-top: 14px; font-size: .85rem; color: var(--muted); text-align: center; }
+.form__fineprint a { color: var(--brand-600); font-weight: 600; }
+.form__error { margin-top: 14px; color: #be123c; font-weight: 600; font-size: .9rem; text-align: center; }
+.form__success { text-align: center; padding: 24px 8px; }
+.form__success svg { width: 50px; height: 50px; color: var(--accent-600); margin: 0 auto 12px; }
+.form__success h3 { color: var(--ink); font-size: 1.25rem; }
+.form__success p { color: var(--muted); margin-top: 8px; }

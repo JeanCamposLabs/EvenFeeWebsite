@@ -1,0 +1,27 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Secrets / env — never commit these
+.env
+.env.*
+*.local
+secrets.*
+*.pem
+*.key
+
+# Dependency / build output (not used by this static site, but safe defaults)
+node_modules/
+dist/
+_site/
+.cache/
+
+# Python (used only by scripts/generate-assets.py)
+__pycache__/
+*.pyc
+.venv/
+venv/
