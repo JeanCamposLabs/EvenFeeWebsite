@@ -31,7 +31,7 @@ NEW_URL="${3%/}"   # strip any trailing slash
 # Current placeholders baked into the template:
 OLD_BRAND="EvenFee"
 OLD_EMAIL="hello@evenfee.com"
-OLD_URL="https://jeancamposlabs.github.io/CamposLabs"
+OLD_URL="https://evenfee.com"
 
 FILES=(index.html privacy.html terms.html 404.html robots.txt sitemap.xml site.webmanifest README.md)
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jeancamposlabs.github.io/CamposLabs/sitemap.xml
+Sitemap: https://evenfee.com/sitemap.xml

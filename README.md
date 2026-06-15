@@ -78,7 +78,7 @@ Replace the brand name, contact email, and site URL across every file at once:
   - GitHub Pages project site: `https://YOURUSER.github.io/YOURREPO`
   - Custom domain: `https://yourdomain.com`
 - The current placeholders are `EvenFee`, `hello@evenfee.com`, and
-  `https://jeancamposlabs.github.io/CamposLabs`.
+  `https://evenfee.com`.
 
 ### 2. Refresh the brand images (only if the name/colors changed)
 Edit the constants at the top of `scripts/generate-assets.py`, then:
@@ -105,8 +105,8 @@ publishes the site on every push to `main`, and can also be run manually from th
 2. The workflow enables Pages (source = *GitHub Actions*) on its first run. If your
    organization blocks auto-enablement, set it once under **Settings → Pages → Build
    and deployment → Source: _GitHub Actions_**, then re-run the workflow.
-3. Your site goes live at `https://YOURUSER.github.io/YOURREPO/`.
-   For `jeancamposlabs/camposlabs` that is `https://jeancamposlabs.github.io/CamposLabs/`.
+3. Your site goes live at your GitHub Pages URL (`https://YOURUSER.github.io/YOURREPO/`),
+   and at your custom domain once configured — for this project, **`https://evenfee.com/`**.
 
 All internal links and asset paths are **relative**, so the site works correctly
 from a project sub-path (`/camposlabs/`) and from a custom root domain alike.
