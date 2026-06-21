@@ -32,6 +32,7 @@
   <meta name="theme-color" content="#0b1526">
   <meta name="robots" content="index, follow">
 
+  <link rel="preload" as="image" href="assets/mascot.jpg" fetchpriority="high">
   <link rel="stylesheet" href="assets/styles.css">
 
   <script type="application/ld+json">
@@ -69,8 +70,20 @@
           { "@type": "Question", "name": "Can I revoke EvenFee's access?",
             "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can revoke EvenFee's access from your Amazon Seller Central account at any time. We delete your data after revocation." } },
           { "@type": "Question", "name": "Do you guarantee a recovery amount?",
-            "acceptedAnswer": { "@type": "Answer", "text": "No. Outcomes depend on your account and Amazon's review of each claim. We only charge a success fee on amounts that are actually recovered." } }
+            "acceptedAnswer": { "@type": "Answer", "text": "No. Outcomes depend on your account and Amazon's review of each claim. We only charge a success fee on amounts that are actually recovered." } },
+          { "@type": "Question", "name": "Where is EvenFee based?",
+            "acceptedAnswer": { "@type": "Answer", "text": "EvenFee is operated by an independent sole proprietor based in Portugal (EU), and follows GDPR for any personal data it processes." } }
         ]
+      },
+      {
+        "@type": "Service",
+        "@id": "https://evenfee.com/#service",
+        "name": "FBA fee recovery",
+        "serviceType": "Amazon FBA fee audit and reimbursement recovery",
+        "provider": { "@id": "https://evenfee.com/#org" },
+        "areaServed": "Worldwide",
+        "description": "Audits Amazon FBA fulfillment and storage fees for overcharges caused by incorrect product dimension or weight measurements, and helps sellers prepare reimbursement claims. Success-based pricing.",
+        "offers": { "@type": "Offer", "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "EUR", "description": "Small monthly subscription plus a success fee charged only on amounts actually recovered." } }
       }
     ]
   }
@@ -94,6 +107,7 @@
           <li><a href="#security">Security</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
+          <li><a href="resources.html">Resources</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -110,11 +124,13 @@
       <div class="nav__panel" id="mobile-menu" data-nav-panel>
         <ul>
           <li><a href="#problem">The problem</a></li>
+          <li><a href="#estimate">Estimate savings</a></li>
           <li><a href="#how-it-works">How it works</a></li>
           <li><a href="#benefits">Benefits</a></li>
           <li><a href="#security">Security &amp; trust</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faq">FAQ</a></li>
+          <li><a href="resources.html">Resources</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
         </ul>
@@ -149,7 +165,7 @@
           <!-- Brand mascot — animated loop that blends from the static poster image -->
           <div class="hero__art">
             <video class="hero__mascot" width="900" height="900"
-                   autoplay muted loop playsinline preload="auto"
+                   autoplay muted loop playsinline preload="metadata"
                    poster="assets/mascot.jpg"
                    aria-label="EvenFee mascot — a friendly inspector measuring a product with a spirit level at her workbench">
               <source src="assets/mascot.mp4" type="video/mp4">
@@ -214,6 +230,42 @@
               </div>
               <p class="mock__dims">The difference is billed on <strong>every unit you sell</strong> until corrected.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Estimate ===================== -->
+    <section class="section section--soft" id="estimate">
+      <div class="container">
+        <div class="section__head center">
+          <span class="eyebrow">What it could be costing you</span>
+          <h2>Estimate what a size-tier error adds up to.</h2>
+          <p>A mis-measured product is overcharged on <strong>every unit</strong>, on every order. Adjust the numbers for one affected product to see how it compounds — then a free audit finds your real figure.</p>
+        </div>
+        <div class="estimator">
+          <form class="estimator__controls" id="estimator" novalidate aria-label="FBA overcharge estimator">
+            <div class="field">
+              <label for="est-units">Units sold per month</label>
+              <input id="est-units" type="number" inputmode="numeric" min="0" step="1" value="1500">
+            </div>
+            <div class="field">
+              <label for="est-over">Estimated overcharge per unit</label>
+              <div class="field__money"><span aria-hidden="true">$</span><input id="est-over" type="number" inputmode="decimal" min="0" step="0.01" value="0.40"></div>
+            </div>
+            <div class="field">
+              <label for="est-months">Months it may have gone unnoticed</label>
+              <input id="est-months" type="number" inputmode="numeric" min="0" step="1" value="6">
+            </div>
+          </form>
+          <div class="estimator__result">
+            <span class="estimator__label">Estimated overcharge so far</span>
+            <span class="estimator__value" id="est-total" aria-live="polite">$3,600</span>
+            <span class="estimator__sub" id="est-monthly">about $600 / month on this product</span>
+            <a class="btn btn--light btn--block" href="#contact">Get a free audit to find your real number
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <p class="estimator__disclaimer">Illustrative estimate only — not a quote or a guarantee of recovery.</p>
           </div>
         </div>
       </div>
@@ -416,10 +468,11 @@
             <h2>Find out what Amazon may owe you.</h2>
             <p>Send us a message and we'll run a free, no-obligation audit of your FBA fees for measurement-related overcharges. You only pay if we recover.</p>
             <ul class="contact__list">
-              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> No obligation — we reply by email</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> No obligation — we reply within 1 business day</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Read-only authorization, revoke anytime</li>
               <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> No buyer data accessed, ever</li>
             </ul>
+            <p class="contact__email">Prefer email? Write to <a href="mailto:hello@evenfee.com?subject=Free%20FBA%20fee%20audit%20request">hello@evenfee.com</a>.</p>
           </div>
 
           <div class="contact__card">
@@ -476,10 +529,12 @@
           <h4>Product</h4>
           <ul>
             <li><a href="#problem">The problem</a></li>
+            <li><a href="#estimate">Estimate savings</a></li>
             <li><a href="#how-it-works">How it works</a></li>
             <li><a href="#security">Security &amp; trust</a></li>
             <li><a href="#pricing">Pricing</a></li>
             <li><a href="#faq">FAQ</a></li>
+            <li><a href="resources.html">Resources</a></li>
           </ul>
         </div>
         <div>

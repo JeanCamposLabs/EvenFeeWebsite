@@ -673,6 +673,40 @@ strong { color: var(--ink); font-weight: 700; }
   }
 }
 
+/* ----- Contact email fallback --------------------------------------------- */
+.contact__email { margin-top: 18px; color: #c7d3e8; }
+.contact__email a { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+/* ----- Recovery estimator -------------------------------------------------- */
+.estimator { display: grid; gap: 20px; max-width: 940px; margin: 34px auto 0; }
+@media (min-width: 820px) { .estimator { grid-template-columns: 1.05fr .95fr; gap: 26px; align-items: stretch; } }
+.estimator__controls {
+  display: grid; gap: 16px; align-content: start;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm);
+}
+.field { display: grid; gap: 6px; }
+.field label { font-size: .92rem; font-weight: 600; color: var(--ink); }
+.field input {
+  width: 100%; padding: 12px 14px; font-size: 1.05rem;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: #fff; color: var(--ink);
+}
+.field input:focus-visible { outline: none; box-shadow: var(--ring); border-color: var(--brand-500); }
+.field__money { position: relative; display: flex; align-items: center; }
+.field__money span { position: absolute; left: 14px; color: var(--muted); font-weight: 600; pointer-events: none; }
+.field__money input { padding-left: 28px; }
+.estimator__result {
+  display: flex; flex-direction: column; justify-content: center; gap: 6px; text-align: center;
+  background: linear-gradient(160deg, var(--brand-700), var(--brand-600));
+  color: #fff; border-radius: var(--radius); padding: 30px 26px; box-shadow: var(--shadow);
+}
+.estimator__label { font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: #bcd0ff; }
+.estimator__value { font-size: clamp(2.4rem, 1.5rem + 3vw, 3.4rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+.estimator__sub { color: #d7e3ff; font-size: 1rem; }
+.estimator__result .btn { margin-top: 18px; }
+.estimator__disclaimer { color: #aebfe0; font-size: .8rem; margin-top: 6px; }
+
 /* Utility */
 .center { text-align: center; }
 .mt-0 { margin-top: 0; }

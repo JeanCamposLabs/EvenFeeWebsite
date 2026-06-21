@@ -59,14 +59,41 @@
     if (reduceMotion.addEventListener) reduceMotion.addEventListener("change", applyMotionPref);
   }
 
+  /* Recovery estimator (illustrative, client-side only) */
+  var est = document.getElementById("estimator");
+  if (est) {
+    var elUnits = document.getElementById("est-units");
+    var elOver = document.getElementById("est-over");
+    var elMonths = document.getElementById("est-months");
+    var elTotal = document.getElementById("est-total");
+    var elMonthly = document.getElementById("est-monthly");
+    var money = function (n) { return "$" + Math.round(n).toLocaleString("en-US"); };
+    var num = function (el) { return Math.max(0, parseFloat(el && el.value) || 0); };
+    var recompute = function () {
+      var perMonth = num(elUnits) * num(elOver);
+      elTotal.textContent = money(perMonth * num(elMonths));
+      elMonthly.textContent = "about " + money(perMonth) + " / month on this product";
+    };
+    est.addEventListener("input", recompute);
+    recompute();
+  }
+
   /* Contact form — AJAX submit with an inline success state.
      Falls back to a normal POST (with redirect to thanks.html) when JS is off. */
   var form = document.getElementById("contact-form");
   if (form) {
     form.addEventListener("submit", function (e) {
       var action = form.getAttribute("action") || "";
-      // Not configured yet: let the browser submit normally so it's obvious in setup.
-      if (action.indexOf("YOUR_FORM_ID") !== -1) return;
+      // Not yet wired to a form backend: fall back to a prefilled email so the form still works.
+      if (action.indexOf("YOUR_FORM_ID") !== -1) {
+        e.preventDefault();
+        var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value : ""; };
+        var body = encodeURIComponent(
+          "Name: " + get("name") + "\nEmail: " + get("email") +
+          "\nAmazon store / website: " + get("store") + "\n\n" + get("message"));
+        window.location.href = "mailto:hello@evenfee.com?subject=Free%20FBA%20fee%20audit%20request&body=" + body;
+        return;
+      }
 
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
