@@ -112,7 +112,7 @@ h1, h2, h3, h4 {
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(2.1rem, 1.4rem + 3.0vw, 3.5rem); font-family: var(--font-display); letter-spacing: normal; }
+h1 { font-size: clamp(2.1rem, 1.4rem + 3.0vw, 3.5rem); }
 h2 { font-size: clamp(1.6rem, 1.1rem + 2.1vw, 2.4rem); }
 h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
 
@@ -258,8 +258,9 @@ strong { color: var(--ink); font-weight: 700; }
 }
 .brand:hover { text-decoration: none; }
 .brand__mark { width: 30px; height: 30px; border-radius: 9px; flex: none; box-shadow: var(--shadow-sm); }
-.brand__name { font-family: var(--font-display); letter-spacing: normal; }
-.brand__name b { color: var(--brand-700); }
+/* Brand wordmark: Bitcount at a light weight so the grid dots stay distinct (heavier weights merge them) */
+.brand__name { font-family: var(--font-display); font-weight: 300; letter-spacing: normal; }
+.brand__name b { color: var(--brand-700); font-weight: inherit; }
 
 .nav__links {
   display: none;
