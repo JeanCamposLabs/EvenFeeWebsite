@@ -34,14 +34,25 @@
     });
   }
 
-  /* Sticky-header shadow once the page is scrolled */
+  /* Header: on the hero page (with JS), stay hidden over the hero and slide in
+     once the next section scrolls into view. On other pages, just gain a shadow. */
   var header = document.querySelector("[data-header]");
   if (header) {
-    var onScroll = function () {
-      header.classList.toggle("is-scrolled", window.scrollY > 8);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    var heroSection = document.querySelector(".hero");
+    if (heroSection && document.documentElement.classList.contains("hero-reveal")) {
+      var onHeroScroll = function () {
+        header.classList.toggle("is-revealed", window.scrollY > heroSection.offsetHeight - 80);
+      };
+      onHeroScroll();
+      window.addEventListener("scroll", onHeroScroll, { passive: true });
+      window.addEventListener("resize", onHeroScroll);
+    } else {
+      var onScroll = function () {
+        header.classList.toggle("is-scrolled", window.scrollY > 8);
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
   }
 
   /* Current year in the footer */
