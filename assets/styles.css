@@ -390,6 +390,15 @@ strong { color: var(--ink); font-weight: 700; }
 
 /* Hero mascot illustration */
 .hero__art { display: flex; justify-content: center; }
+
+/* On load: the copy arrives from the left, the video from the right. */
+@keyframes heroInLeft  { from { opacity: 0; transform: translateX(-46px); } to { opacity: 1; transform: none; } }
+@keyframes heroInRight { from { opacity: 0; transform: translateX(46px);  } to { opacity: 1; transform: none; } }
+.hero-reveal .hero__copy { animation: heroInLeft .72s cubic-bezier(.2, .7, .25, 1) both; }
+.hero-reveal .hero__art  { animation: heroInRight .72s cubic-bezier(.2, .7, .25, 1) both .06s; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal .hero__copy, .hero-reveal .hero__art { animation: none; }
+}
 .hero__mascot {
   width: 100%;
   max-width: 520px;
@@ -753,22 +762,19 @@ strong { color: var(--ink); font-weight: 700; }
   filter: blur(6px);
 }
 
+/* Replay control: kept almost invisible in the corner; brightens on hover/focus. */
 .hero__replay {
   position: absolute; top: 16px; left: 16px;
   width: 42px; height: 42px; border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center; line-height: 0;
-  background: rgba(255, 255, 255, .85); color: var(--brand-700);
+  background: rgba(255, 255, 255, .7); color: var(--brand-700);
   border: 1px solid var(--line); box-shadow: var(--shadow-sm); cursor: pointer;
-  opacity: 0; transform: scale(.9);
+  opacity: .12;
   transition: opacity .2s ease, transform .2s ease, background .2s ease, color .2s ease;
-  pointer-events: none; -webkit-tap-highlight-color: transparent;
+  pointer-events: auto; -webkit-tap-highlight-color: transparent;
 }
 .hero__replay svg { width: 20px; height: 20px; }
-.hero__replay:hover, .hero__replay:focus-visible { background: #fff; color: var(--brand-600); transform: scale(1.07); }
-
-/* Replay control: revealed only while hovering (or keyboard-focusing) the frozen frame */
-.hero__art.is-stopped:hover .hero__replay,
-.hero__art.is-stopped:focus-within .hero__replay { opacity: 1; transform: none; pointer-events: auto; }
+.hero__replay:hover, .hero__replay:focus-visible { opacity: .85; background: #fff; color: var(--brand-600); transform: scale(1.07); }
 
 /* ----- Hero scroll cue ----------------------------------------------------- */
 .hero__scroll {

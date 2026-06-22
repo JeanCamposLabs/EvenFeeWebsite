@@ -59,47 +59,48 @@
   var year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  /* Hero mascot: play once (muted) then hold the final frame, revealing the logo
-     and a replay control. Hovering (or tapping) the control re-runs the animation.
-     Reduced-motion / blocked autoplay jump straight to the final frame. */
+  /* Hero mascot: play once (muted), then keep looping just the last second so the
+     scene stays gently alive instead of freezing. The faint replay control re-runs
+     the whole animation. Reduced-motion / blocked autoplay hold the final frame. */
   var heroVid = document.querySelector("video.hero__mascot");
   if (heroVid) {
-    var heroArt = heroVid.closest(".hero__art");
-    var setStopped = function () { if (heroArt) heroArt.classList.add("is-stopped"); };
-    var setPlaying = function () { if (heroArt) heroArt.classList.remove("is-stopped"); };
-    var holdLastFrame = function () {
+    var LOOP_TAIL = 1.0; // seconds at the end to loop
+    var freezeEnd = function () {
       var end = (isFinite(heroVid.duration) && heroVid.duration > 0) ? heroVid.duration - 0.05 : 0;
       try { heroVid.currentTime = end; } catch (e) {}
       heroVid.pause();
-      setStopped();
     };
-    var jumpToEnd = function () {
-      if (heroVid.readyState >= 1) holdLastFrame();
-      else heroVid.addEventListener("loadedmetadata", holdLastFrame);
+    var holdIfBlocked = function () {
+      if (heroVid.readyState >= 1) freezeEnd();
+      else heroVid.addEventListener("loadedmetadata", freezeEnd);
+    };
+    var loopTail = function () {
+      var d = heroVid.duration;
+      if (isFinite(d) && d > LOOP_TAIL) { try { heroVid.currentTime = d - LOOP_TAIL; } catch (e) {} }
+      var p = heroVid.play && heroVid.play();
+      if (p && p.catch) p.catch(function () {});
     };
     var replay = function () {
-      setPlaying();
       try { heroVid.currentTime = 0; } catch (e) {}
       var p = heroVid.play && heroVid.play();
-      if (p && p.catch) p.catch(jumpToEnd);
+      if (p && p.catch) p.catch(holdIfBlocked);
     };
-
-    heroVid.addEventListener("ended", setStopped);
-
-    var replayBtn = document.querySelector(".hero__replay");
-    if (replayBtn) {
-      replayBtn.addEventListener("mouseenter", replay);
-      replayBtn.addEventListener("click", replay);
-    }
 
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       heroVid.removeAttribute("autoplay");
       heroVid.pause();
-      jumpToEnd();
+      holdIfBlocked();
     } else {
+      heroVid.addEventListener("ended", loopTail);
       var played = heroVid.play && heroVid.play();
-      if (played && played.catch) played.catch(jumpToEnd);
+      if (played && played.catch) played.catch(holdIfBlocked);
+    }
+
+    var replayBtn = document.querySelector(".hero__replay");
+    if (replayBtn) {
+      replayBtn.addEventListener("click", replay);
+      replayBtn.addEventListener("mouseenter", replay);
     }
   }
 
