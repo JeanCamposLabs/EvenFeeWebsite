@@ -50,6 +50,18 @@ jobs:
             --exclude='assets/brand-v1' \
             ./ _site/
 
+      # Stamp every deploy with the commit SHA: write it to build.txt (which the
+      # client polls to detect a new release and auto-refresh), inject it as a
+      # <meta name="app-build"> on each page, and append it as a ?v= query to
+      # local asset URLs so CSS/JS/media bust their cache on every release.
+      - name: Stamp build version (cache-busting)
+        run: |
+          BUILD="${GITHUB_SHA::8}"
+          printf '%s' "$BUILD" > _site/build.txt
+          find _site -name '*.html' -print0 | xargs -0 sed -E -i \
+            -e "s#</head>#<meta name=\"app-build\" content=\"$BUILD\"></head>#" \
+            -e "s#(src|href|poster)=\"(assets/[^\"?]+)\"#\1=\"\2?v=$BUILD\"#g"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

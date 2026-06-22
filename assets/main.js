@@ -197,4 +197,38 @@
     window.addEventListener("scroll", updateCta, { passive: true });
     window.addEventListener("resize", updateCta);
   }
+
+  /* Auto-update to the latest deploy.
+     Each deploy stamps the commit's short SHA into <meta name="app-build"> on
+     every page and into /build.txt. We poll build.txt (cache-bypassed); when it
+     no longer matches the build this page was served from, a newer version is
+     live, so we reload — pulling the new HTML and its freshly versioned
+     CSS/JS/media. A per-build guard prevents reload loops if an edge cache is
+     briefly stale. No meta tag (e.g. local dev) → the check is skipped. */
+  var buildMeta = document.querySelector('meta[name="app-build"]');
+  var loadedBuild = buildMeta && buildMeta.getAttribute("content");
+  if (loadedBuild) {
+    var didReload = function (b) {
+      try { return sessionStorage.getItem("evenfee:reloaded:" + b) === "1"; }
+      catch (e) { return false; }
+    };
+    var checkBuild = function () {
+      fetch("build.txt?_=" + Date.now(), { cache: "no-store" })
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (text) {
+          if (!text) return;
+          var latest = text.trim();
+          if (!latest || latest === loadedBuild || didReload(latest)) return;
+          try { sessionStorage.setItem("evenfee:reloaded:" + latest, "1"); } catch (e) {}
+          location.reload();
+        })
+        .catch(function () {});
+    };
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible") checkBuild();
+    });
+    window.addEventListener("pageshow", checkBuild);
+    setInterval(checkBuild, 60000);
+    checkBuild();
+  }
 })();
