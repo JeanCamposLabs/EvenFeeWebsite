@@ -754,8 +754,8 @@ strong { color: var(--ink); font-weight: 700; }
 }
 
 .hero__brandmark {
-  position: absolute; top: 23%; right: 12%;
-  display: flex; flex-direction: column; align-items: center; gap: 2cqw;
+  position: absolute; top: 28%; right: 10%;
+  display: inline-flex; line-height: 1;
   opacity: 0;
   pointer-events: none;
 }
@@ -765,10 +765,6 @@ strong { color: var(--ink); font-weight: 700; }
   font-size: 7.7cqw;   /* scale the wordmark with the stage */
 }
 .hero__brandmark b { color: var(--brand-700); }
-.hero__brandmark-level {
-  width: 19cqw; height: auto;
-  filter: drop-shadow(0 4px 5px rgba(11, 21, 38, .22));
-}
 
 .hero__replay {
   position: absolute; top: 16px; left: 16px;
@@ -783,22 +779,15 @@ strong { color: var(--ink); font-weight: 700; }
 .hero__replay svg { width: 20px; height: 20px; }
 .hero__replay:hover, .hero__replay:focus-visible { background: #fff; color: var(--brand-600); transform: scale(1.07); }
 
-/* On freeze, the wordmark drops in slowly from the top to its halfway resting spot,
-   then the bubble level gently floats just below it. */
+/* On freeze, the wordmark drops in slowly from the top and settles in the open space. */
 @keyframes brandDrop {
   0%   { opacity: 0; top: -12%; }
   14%  { opacity: 1; }
-  100% { opacity: 1; top: 23%; }
-}
-@keyframes levelFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-1.4cqw); }
+  100% { opacity: 1; top: 28%; }
 }
 .hero__art.is-stopped .hero__brandmark { opacity: 1; animation: brandDrop 1.4s cubic-bezier(.4, 0, .25, 1) both; }
-.hero__art.is-stopped .hero__brandmark-level { animation: levelFloat 3.4s ease-in-out 1.5s infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .hero__art.is-stopped .hero__brandmark,
-  .hero__art.is-stopped .hero__brandmark-level { animation: none; }
+  .hero__art.is-stopped .hero__brandmark { animation: none; }
 }
 /* Replay control: revealed only while hovering (or keyboard-focusing) the frozen frame */
 .hero__art.is-stopped:hover .hero__replay,
