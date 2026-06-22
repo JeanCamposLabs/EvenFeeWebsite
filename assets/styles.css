@@ -754,7 +754,7 @@ strong { color: var(--ink); font-weight: 700; }
 }
 
 .hero__brandmark {
-  position: absolute; top: 18px; right: 20px;
+  position: absolute; top: 20%; right: 10%;
   display: inline-flex; align-items: center; gap: .5em; line-height: 1;
   opacity: 0; transform: translateY(-4px);
   transition: opacity .55s ease .15s, transform .55s ease .15s;
