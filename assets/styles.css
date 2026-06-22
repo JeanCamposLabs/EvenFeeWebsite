@@ -740,7 +740,7 @@ strong { color: var(--ink); font-weight: 700; }
 .estimator__disclaimer { color: #aebfe0; font-size: .8rem; margin-top: 6px; }
 
 /* ----- Hero mascot overlays (logo reveal + replay control) ----------------- */
-.hero__stage { position: relative; z-index: 0; width: 100%; max-width: 520px; line-height: 0; container-type: inline-size; }
+.hero__stage { position: relative; z-index: 0; width: 100%; max-width: 520px; line-height: 0; }
 .hero__stage .hero__mascot { max-width: 100%; }
 /* Soft teal aura that echoes the mascot scene's background, so the rounded
    video melts into the page instead of sitting on it as a hard rectangle. */
@@ -752,19 +752,6 @@ strong { color: var(--ink); font-weight: 700; }
   background: radial-gradient(58% 58% at 50% 46%, rgba(159, 206, 211, .55), rgba(159, 206, 211, 0) 72%);
   filter: blur(6px);
 }
-
-.hero__brandmark {
-  position: absolute; top: 28%; right: 10%;
-  display: inline-flex; line-height: 1;
-  opacity: 0;
-  pointer-events: none;
-}
-.hero__brandmark span {
-  font-family: var(--font-display); font-weight: 300; line-height: 1; color: var(--ink); white-space: nowrap;
-  font-size: 2.4rem;   /* fallback for browsers without container-query units */
-  font-size: 7.7cqw;   /* scale the wordmark with the stage */
-}
-.hero__brandmark b { color: var(--brand-700); }
 
 .hero__replay {
   position: absolute; top: 16px; left: 16px;
@@ -779,16 +766,6 @@ strong { color: var(--ink); font-weight: 700; }
 .hero__replay svg { width: 20px; height: 20px; }
 .hero__replay:hover, .hero__replay:focus-visible { background: #fff; color: var(--brand-600); transform: scale(1.07); }
 
-/* On freeze, the wordmark drops in slowly from the top and settles in the open space. */
-@keyframes brandDrop {
-  0%   { opacity: 0; top: -12%; }
-  14%  { opacity: 1; }
-  100% { opacity: 1; top: 28%; }
-}
-.hero__art.is-stopped .hero__brandmark { opacity: 1; animation: brandDrop 1.4s cubic-bezier(.4, 0, .25, 1) both; }
-@media (prefers-reduced-motion: reduce) {
-  .hero__art.is-stopped .hero__brandmark { animation: none; }
-}
 /* Replay control: revealed only while hovering (or keyboard-focusing) the frozen frame */
 .hero__art.is-stopped:hover .hero__replay,
 .hero__art.is-stopped:focus-within .hero__replay { opacity: 1; transform: none; pointer-events: auto; }
