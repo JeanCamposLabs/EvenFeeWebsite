@@ -456,7 +456,29 @@ strong { color: var(--ink); font-weight: 700; }
 }
 
 /* Hero mascot illustration */
-.hero__art { display: flex; justify-content: center; }
+.hero__art { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+
+/* Reveal choreography: with JS on (html.hero-reveal), the brand intro plays
+   first while the tool is tucked away below; once the intro lands, the video
+   lifts up and out and the tool rises in to take the space. */
+.hero__stage,
+.hero__tool {
+  transition: opacity .8s ease, transform .8s cubic-bezier(.16, .84, .3, 1), max-height .85s ease;
+}
+.hero-reveal .hero__tool {
+  opacity: 0; transform: translateY(30px) scale(.98);
+  max-height: 0; overflow: hidden; pointer-events: none;
+}
+.hero-reveal .hero.is-tool-revealed .hero__tool {
+  opacity: 1; transform: none; max-height: 1400px; pointer-events: auto;
+}
+.hero-reveal .hero.is-tool-revealed .hero__stage {
+  opacity: 0; transform: translateY(-30px) scale(.9);
+  max-height: 0; overflow: hidden; pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__stage, .hero__tool { transition: none; }
+}
 
 /* On load: the copy arrives from the left, the video from the right. */
 @keyframes heroInLeft  { from { opacity: 0; transform: translateX(-100%); } to { opacity: 1; transform: none; } }
@@ -816,7 +838,7 @@ strong { color: var(--ink); font-weight: 700; }
 .estimator__disclaimer { color: #aebfe0; font-size: .8rem; margin-top: 6px; }
 
 /* ----- Hero mascot overlays (logo reveal + replay control) ----------------- */
-.hero__stage { position: relative; z-index: 0; width: 100%; max-width: 520px; line-height: 0; }
+.hero__stage { position: relative; z-index: 0; width: 100%; max-width: 520px; max-height: 460px; line-height: 0; }
 .hero__stage .hero__mascot { max-width: 100%; }
 /* Soft teal aura that echoes the mascot scene's background, so the rounded
    video melts into the page instead of sitting on it as a hard rectangle. */
@@ -862,6 +884,64 @@ strong { color: var(--ink); font-weight: 700; }
   50% { transform: translate(-50%, 6px); }
 }
 @media (min-width: 940px) { .hero__scroll { display: inline-flex; } }
+
+/* ----- Hero recovery tool (early-access capture) --------------------------- */
+.hero__tool { width: 100%; max-width: 500px; margin-inline: auto; }
+.hero__tool-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(20px, 2.6vw, 28px);
+  text-align: left;
+}
+.hero__tool-badge {
+  display: inline-flex; align-items: center; gap: .45em;
+  font-size: .74rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--brand-700); background: var(--brand-050);
+  border: 1px solid #dbe6ff; border-radius: var(--radius-pill);
+  padding: .42em .85em;
+}
+.hero__tool-badge svg { width: 14px; height: 14px; }
+.hero__tool-title { font-size: 1.45rem; font-weight: 800; margin-top: 14px; letter-spacing: -.01em; }
+.hero__tool-lead { font-size: .98rem; color: var(--muted); margin-top: 8px; }
+
+.hero__drops { display: grid; gap: 12px; margin-top: 18px; }
+@media (min-width: 420px) { .hero__drops { grid-template-columns: 1fr 1fr; } }
+.hero__drop {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px;
+  border: 1.5px dashed #cdd8e8; border-radius: var(--radius);
+  background: var(--soft); padding: 16px 12px; cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, transform .12s ease;
+}
+.hero__drop:hover { border-color: var(--brand-500); background: var(--brand-050); }
+.hero__drop.is-dragover { border-color: var(--brand-600); background: var(--brand-050); transform: translateY(-1px); }
+.hero__drop.is-filled { border-style: solid; border-color: var(--accent-500); background: var(--accent-050); }
+.hero__drop-icon { width: 26px; height: 26px; color: var(--brand-600); margin-bottom: 2px; }
+.hero__drop.is-filled .hero__drop-icon { color: var(--accent-600); }
+.hero__drop-name { font-size: .9rem; font-weight: 650; color: var(--ink); overflow-wrap: anywhere; }
+.hero__drop-hint { font-size: .77rem; color: var(--muted); }
+
+.hero__tool-note { font-size: .86rem; color: var(--body); margin-top: 16px; }
+.hero__tool-cta { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.hero__tool-email {
+  flex: 1 1 190px; min-width: 0;
+  padding: 12px 14px; font-size: 1rem;
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: #fff; color: var(--ink);
+}
+.hero__tool-email:focus-visible { outline: none; box-shadow: var(--ring); border-color: var(--brand-500); }
+.hero__tool-cta .btn { flex: 0 0 auto; }
+.hero__tool-fine {
+  display: flex; align-items: center; gap: .5em;
+  font-size: .8rem; color: var(--muted); margin-top: 14px;
+}
+.hero__tool-fine svg { width: 14px; height: 14px; flex: none; }
+
+.hero__tool-success { text-align: center; padding: 20px 8px; }
+.hero__tool-success svg { width: 46px; height: 46px; color: var(--accent-600); margin: 0 auto 10px; }
+.hero__tool-success h3 { font-size: 1.25rem; font-weight: 800; color: var(--ink); }
+.hero__tool-success p { color: var(--muted); margin-top: 6px; }
 
 /* ----- Mobile sticky CTA --------------------------------------------------- */
 .mobile-cta {

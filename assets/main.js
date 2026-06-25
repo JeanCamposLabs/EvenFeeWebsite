@@ -59,63 +59,47 @@
   var year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  /* Hero mascot: play once (muted), then keep looping just the last second so the
-     scene stays gently alive instead of freezing. The faint replay control re-runs
-     the whole animation. Reduced-motion / blocked autoplay hold the final frame. */
+  /* Hero: the brand intro plays once, then hands off — the video lifts away and
+     the recovery tool rises in to take the space. The same beat starts the
+     headline reading guide. Reduced-motion / blocked autoplay reveal the tool
+     right away rather than make anyone wait. */
   var heroVid = document.querySelector("video.hero__mascot");
   if (heroVid) {
-    var LOOP_START = 13.0; // loop from here to the end (~3s idle) so she blinks on a calm cycle
-
-    // Reading guide: just after the brand reveal lands, light up each character
-    // of the headline in sequence (left to right), each holding blue for ~10s
-    // before slowly fading back to ink. Runs once.
+    var hero = heroVid.closest(".hero");
     var heroH1 = document.querySelector(".hero h1");
-    var GUIDE_AT = 12.6; // seconds — the logo has dropped in and the scene is calm
-    var guided = false;
-    var startGuide = function () {
-      if (guided || !heroH1) return;
-      guided = true;
-      heroH1.classList.add("is-guiding");
-    };
+    var HANDOFF_AT = 12.6; // seconds — the EvenFee logo has finished dropping in
 
-    var freezeEnd = function () {
-      var end = (isFinite(heroVid.duration) && heroVid.duration > 0) ? heroVid.duration - 0.05 : 0;
-      try { heroVid.currentTime = end; } catch (e) {}
-      heroVid.pause();
-    };
-    var holdIfBlocked = function () {
-      if (heroVid.readyState >= 1) freezeEnd();
-      else heroVid.addEventListener("loadedmetadata", freezeEnd);
-    };
-    var loopTail = function () {
-      if (isFinite(heroVid.duration) && heroVid.duration > LOOP_START) { try { heroVid.currentTime = LOOP_START; } catch (e) {} }
-      var p = heroVid.play && heroVid.play();
-      if (p && p.catch) p.catch(function () {});
+    var revealed = false;
+    var revealHero = function () {
+      if (revealed) return;
+      revealed = true;
+      if (heroH1) heroH1.classList.add("is-guiding");    // light up the headline, left to right
+      if (hero) hero.classList.add("is-tool-revealed");  // video lifts away, tool rises in
+      try { heroVid.pause(); } catch (e) {}              // the (now hidden) intro is done
     };
     var replay = function () {
       try { heroVid.currentTime = 0; } catch (e) {}
       var p = heroVid.play && heroVid.play();
-      if (p && p.catch) p.catch(holdIfBlocked);
+      if (p && p.catch) p.catch(function () {});
     };
 
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       heroVid.removeAttribute("autoplay");
-      heroVid.pause();
-      holdIfBlocked();
+      revealHero(); // show the tool immediately; CSS disables the motion
     } else {
-      heroVid.addEventListener("ended", loopTail);
-      var onGuideTime = function () {
-        if (heroVid.currentTime >= GUIDE_AT) {
-          startGuide();
-          heroVid.removeEventListener("timeupdate", onGuideTime);
+      var onHandoff = function () {
+        if (heroVid.currentTime >= HANDOFF_AT) {
+          revealHero();
+          heroVid.removeEventListener("timeupdate", onHandoff);
         }
       };
-      heroVid.addEventListener("timeupdate", onGuideTime);
-      // Fallback in case autoplay is blocked and timeupdate never fires.
-      setTimeout(startGuide, 14000);
+      heroVid.addEventListener("timeupdate", onHandoff);
+      setTimeout(revealHero, 15000); // backstop if timeupdate never reaches the cue
       var played = heroVid.play && heroVid.play();
-      if (played && played.catch) played.catch(holdIfBlocked);
+      if (played && played.catch) played.catch(function () {
+        setTimeout(revealHero, 1800); // autoplay blocked — hand off after a short beat
+      });
     }
 
     var replayBtn = document.querySelector(".hero__replay");
@@ -123,6 +107,49 @@
       replayBtn.addEventListener("click", replay);
       replayBtn.addEventListener("mouseenter", replay);
     }
+  }
+
+  /* Hero recovery tool (early access). No backend yet: the two drop-zones are
+     interactive previews and submitting captures an email for a launch notice.
+     Wire the real upload + analyze endpoint into the submit handler when ready. */
+  var heroTool = document.getElementById("hero-tool");
+  if (heroTool) {
+    var drops = heroTool.querySelectorAll(".hero__drop");
+    Array.prototype.forEach.call(drops, function (drop) {
+      var input = drop.querySelector('input[type="file"]');
+      var nameEl = drop.querySelector(".hero__drop-name");
+      var markFilled = function (file) {
+        if (!file) return;
+        drop.classList.add("is-filled");
+        if (nameEl) nameEl.textContent = file.name;
+      };
+      if (input) input.addEventListener("change", function () { markFilled(input.files && input.files[0]); });
+      ["dragenter", "dragover"].forEach(function (ev) {
+        drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("is-dragover"); });
+      });
+      ["dragleave", "dragend"].forEach(function (ev) {
+        drop.addEventListener(ev, function () { drop.classList.remove("is-dragover"); });
+      });
+      drop.addEventListener("drop", function (e) {
+        e.preventDefault();
+        drop.classList.remove("is-dragover");
+        var files = e.dataTransfer && e.dataTransfer.files;
+        if (files && files[0]) {
+          if (input) { try { input.files = files; } catch (err) {} }
+          markFilled(files[0]);
+        }
+      });
+    });
+
+    heroTool.addEventListener("submit", function (e) {
+      e.preventDefault();
+      // TODO: POST the email (and, once live, the uploaded reports) to your
+      // endpoint here via heroTool.action. For now, confirm inline.
+      var body = heroTool.querySelector(".hero__tool-body");
+      var success = heroTool.querySelector(".hero__tool-success");
+      if (body) body.hidden = true;
+      if (success) { success.hidden = false; success.setAttribute("tabindex", "-1"); success.focus(); }
+    });
   }
 
   /* Recovery estimator (illustrative, client-side only) */
