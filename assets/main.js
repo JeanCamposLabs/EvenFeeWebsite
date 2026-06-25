@@ -59,23 +59,28 @@
   var year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  /* Hero: the brand intro plays once, then hands off — the video lifts away and
-     the recovery tool rises in to take the space. The same beat starts the
-     headline reading guide. Reduced-motion / blocked autoplay reveal the tool
-     right away rather than make anyone wait. */
+  /* Hero: the brand intro plays once, then the recovery tool rises in from below
+     and pushes the video up — the video stays on top, gently looping its last
+     idle beat so the scene stays alive. The same moment starts the headline
+     reading guide. Reduced-motion / blocked autoplay reveal the tool right away. */
   var heroVid = document.querySelector("video.hero__mascot");
   if (heroVid) {
     var hero = heroVid.closest(".hero");
     var heroH1 = document.querySelector(".hero h1");
     var HANDOFF_AT = 12.6; // seconds — the EvenFee logo has finished dropping in
+    var LOOP_START = 13.0; // after the intro, loop the last idle beat (she blinks)
 
     var revealed = false;
     var revealHero = function () {
       if (revealed) return;
       revealed = true;
       if (heroH1) heroH1.classList.add("is-guiding");    // light up the headline, left to right
-      if (hero) hero.classList.add("is-tool-revealed");  // video lifts away, tool rises in
-      try { heroVid.pause(); } catch (e) {}              // the (now hidden) intro is done
+      if (hero) hero.classList.add("is-tool-revealed");  // tool rises in and pushes the video up
+    };
+    var loopTail = function () {
+      if (isFinite(heroVid.duration) && heroVid.duration > LOOP_START) { try { heroVid.currentTime = LOOP_START; } catch (e) {} }
+      var p = heroVid.play && heroVid.play();
+      if (p && p.catch) p.catch(function () {});
     };
     var replay = function () {
       try { heroVid.currentTime = 0; } catch (e) {}
@@ -86,8 +91,9 @@
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       heroVid.removeAttribute("autoplay");
-      revealHero(); // show the tool immediately; CSS disables the motion
+      revealHero(); // show the tool immediately; the video holds its poster frame
     } else {
+      heroVid.addEventListener("ended", loopTail); // keep the scene alive at the top
       var onHandoff = function () {
         if (heroVid.currentTime >= HANDOFF_AT) {
           revealHero();
@@ -98,7 +104,7 @@
       setTimeout(revealHero, 15000); // backstop if timeupdate never reaches the cue
       var played = heroVid.play && heroVid.play();
       if (played && played.catch) played.catch(function () {
-        setTimeout(revealHero, 1800); // autoplay blocked — hand off after a short beat
+        setTimeout(revealHero, 1800); // autoplay blocked — reveal the tool after a short beat
       });
     }
 

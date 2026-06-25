@@ -456,12 +456,11 @@ strong { color: var(--ink); font-weight: 700; }
 }
 
 /* Hero mascot illustration */
-.hero__art { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; }
+.hero__art { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; }
 
 /* Reveal choreography: with JS on (html.hero-reveal), the brand intro plays
-   first while the tool is tucked away below; once the intro lands, the video
-   lifts up and out and the tool rises in to take the space. */
-.hero__stage,
+   first while the tool is tucked away below; once the intro lands, the tool
+   rises in from below and pushes the video up — the video stays on top. */
 .hero__tool {
   transition: opacity .8s ease, transform .8s cubic-bezier(.16, .84, .3, 1), max-height .85s ease;
 }
@@ -470,14 +469,10 @@ strong { color: var(--ink); font-weight: 700; }
   max-height: 0; overflow: hidden; pointer-events: none;
 }
 .hero-reveal .hero.is-tool-revealed .hero__tool {
-  opacity: 1; transform: none; max-height: 1400px; pointer-events: auto;
-}
-.hero-reveal .hero.is-tool-revealed .hero__stage {
-  opacity: 0; transform: translateY(-30px) scale(.9);
-  max-height: 0; overflow: hidden; pointer-events: none;
+  opacity: 1; transform: none; max-height: 900px; pointer-events: auto;
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero__stage, .hero__tool { transition: none; }
+  .hero__tool { transition: none; }
 }
 
 /* On load: the copy arrives from the left, the video from the right. */
@@ -838,7 +833,7 @@ strong { color: var(--ink); font-weight: 700; }
 .estimator__disclaimer { color: #aebfe0; font-size: .8rem; margin-top: 6px; }
 
 /* ----- Hero mascot overlays (logo reveal + replay control) ----------------- */
-.hero__stage { position: relative; z-index: 0; width: 100%; max-width: 520px; max-height: 460px; line-height: 0; }
+.hero__stage { position: relative; z-index: 0; width: 100%; max-width: 520px; line-height: 0; }
 .hero__stage .hero__mascot { max-width: 100%; }
 /* Soft teal aura that echoes the mascot scene's background, so the rounded
    video melts into the page instead of sitting on it as a hard rectangle. */
