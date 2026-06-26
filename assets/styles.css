@@ -371,7 +371,7 @@ strong { color: var(--ink); font-weight: 700; }
 @keyframes letterBlink {
   0%    { color: var(--ink); }
   1.7%  { color: var(--brand-600); }
-  83.3% { color: var(--brand-600); }
+  98.3% { color: var(--brand-600); }
   100%  { color: var(--ink); }
 }
 .hero h1.is-guiding .char { animation: letterBlink 25s ease-in-out forwards; }
