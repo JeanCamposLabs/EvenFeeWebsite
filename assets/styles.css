@@ -563,7 +563,7 @@ strong { color: var(--ink); font-weight: 700; }
 .problem__point h3 { font-size: 1.05rem; }
 .problem__point p { color: var(--muted); font-size: .98rem; margin-top: 2px; }
 .problem__media { display: flex; align-items: center; justify-content: center; }
-.problem__video { width: 100% !important; height: 100% !important; max-width: none; }
+.problem__video { width: 100%; height: auto; }
 
 @media (min-width: 940px) {
   .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
