@@ -147,9 +147,7 @@ strong { color: var(--ink); font-weight: 700; }
 .section--soft { background: var(--soft); border-block: 1px solid var(--line-2); }
 #problem { background: linear-gradient(150deg, var(--brand-700) 0%, var(--teal-600) 100%); border-block: none; color: #fff; }
 #problem h2, #problem .lead { color: #fff; }
-#problem .eyebrow { color: #d7e3ff; }
-#problem .problem__point p { color: #d7e3ff; }
-#problem .problem__point .num { background: #002854; color: #98c5ff; }
+#problem .eyebrow { color: var(--teal-100); }
 
 .section__head { max-width: 720px; margin-bottom: 44px; }
 .section__head.center { margin-inline: auto; text-align: center; }
@@ -553,17 +551,36 @@ strong { color: var(--ink); font-weight: 700; }
 .icon-box--accent { background: var(--accent-050); color: var(--accent-700); }
 
 /* Problem section */
-.problem__points { margin-top: 28px; display: grid; gap: 14px; }
-.problem__point { display: flex; gap: 14px; align-items: flex-start; }
-.problem__point .num {
-  flex: none; width: 30px; height: 30px; border-radius: 9px;
-  display: grid; place-items: center; font-weight: 800; font-size: .9rem;
-  background: #fff1f2; color: #be123c;
-}
-.problem__point h3 { font-size: 1.05rem; }
-.problem__point p { color: var(--muted); font-size: .98rem; margin-top: 2px; }
 .problem__media { display: flex; align-items: center; justify-content: center; }
 .problem__video { width: 100%; height: auto; }
+
+/* Size-tier chart — the per-unit fee rises as a unit crosses into a larger tier */
+.tierchart { margin-top: 30px; max-width: 480px; }
+.tierchart__head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: .78rem; font-weight: 700; letter-spacing: .02em;
+  text-transform: uppercase; color: var(--teal-100); margin-bottom: 12px;
+}
+.tierchart__plot {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  align-items: end; gap: 16px; height: 150px;
+  border-bottom: 2px solid rgba(255, 255, 255, .45);
+}
+.tierchart__bar {
+  height: var(--h); border-radius: 7px 7px 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .48));
+  box-shadow: 0 10px 20px -12px rgba(0, 0, 0, .55);
+}
+.tierchart__bar:last-child { background: linear-gradient(180deg, #fff, var(--accent-100)); }
+.tierchart__labels {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  gap: 16px; margin-top: 10px;
+}
+.tierchart__labels span { text-align: center; font-size: .8rem; line-height: 1.15; font-weight: 600; color: #fff; }
+.tierchart__note { margin-top: 18px; font-size: 1rem; color: rgba(255, 255, 255, .92); }
+@media (prefers-reduced-motion: no-preference) {
+  .tierchart__bar { transition: height .6s cubic-bezier(.22, 1, .36, 1); }
+}
 
 @media (min-width: 940px) {
   .split { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }

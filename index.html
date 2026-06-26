@@ -250,20 +250,25 @@
           <div>
             <span class="eyebrow">The problem</span>
             <h2>Measured wrong once. You pay on every unit.</h2>
-            <p class="lead" style="margin-top:14px">Amazon calculates FBA fulfillment and storage fees from each product's recorded dimensions and weight. If a unit is measured even slightly too large or too heavy, Amazon can place it in a higher size tier — and you're overcharged on <strong>every single unit, on every order</strong>, until the error is corrected.</p>
-            <div class="problem__points">
-              <div class="problem__point">
-                <span class="num" aria-hidden="true">1</span>
-                <div><h3>Wrong dimensions → wrong size tier</h3><p>A few millimetres or grams can bump a product from one fee tier into a more expensive one.</p></div>
+            <p class="lead" style="margin-top:14px">Amazon sets FBA fulfillment and storage fees from each product's recorded size and weight. A unit measured even slightly too large lands in a higher size tier — where the fee is higher on every single unit.</p>
+            <div class="tierchart">
+              <div class="tierchart__head">
+                <span>Fee per unit&nbsp;↑</span>
+                <span>larger size tier&nbsp;→</span>
               </div>
-              <div class="problem__point">
-                <span class="num" aria-hidden="true">2</span>
-                <div><h3>Overcharged on every unit</h3><p>The inflated fee applies to each unit shipped and each unit stored — not just once.</p></div>
+              <div class="tierchart__plot" role="img" aria-label="Amazon FBA size tiers from Small standard to Extra-large. The per-unit fee rises at every larger tier.">
+                <span class="tierchart__bar" style="--h:26%"></span>
+                <span class="tierchart__bar" style="--h:48%"></span>
+                <span class="tierchart__bar" style="--h:72%"></span>
+                <span class="tierchart__bar" style="--h:100%"></span>
               </div>
-              <div class="problem__point">
-                <span class="num" aria-hidden="true">3</span>
-                <div><h3>It compounds — and it's easy to miss</h3><p>Across a catalog and months of sales, small per-unit errors quietly add up to real money.</p></div>
+              <div class="tierchart__labels" aria-hidden="true">
+                <span>Small<br>standard</span>
+                <span>Large<br>standard</span>
+                <span>Large<br>bulky</span>
+                <span>Extra-<br>large</span>
               </div>
+              <p class="tierchart__note">A few millimetres or grams can bump a unit up a tier — then the higher fee hits <strong>every unit you ship and store</strong>, until it's corrected.</p>
             </div>
           </div>
 
