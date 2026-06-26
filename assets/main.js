@@ -65,6 +65,26 @@
   var heroH1 = document.querySelector(".hero h1");
   if (heroH1) setTimeout(function () { heroH1.classList.add("is-guiding"); }, 2800);
 
+  /* Dimension measurement video (Problem section): play it once it scrolls into
+     view (muted, looping). Reduced motion / no IntersectionObserver simply holds
+     the first frame. */
+  var problemVideo = document.querySelector("video.problem__video");
+  if (problemVideo) {
+    var playProblemVideo = function () { var p = problemVideo.play && problemVideo.play(); if (p && p.catch) p.catch(function () {}); };
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      problemVideo.addEventListener("ended", function () { playProblemVideo(); });
+      if ("IntersectionObserver" in window) {
+        var io1 = new IntersectionObserver(function (entries) {
+          if (entries.some(function (e) { return e.isIntersecting; })) { playProblemVideo(); io1.disconnect(); }
+        }, { threshold: 0.35 });
+        io1.observe(problemVideo);
+      } else {
+        playProblemVideo();
+      }
+    }
+  }
+
   /* Brand mascot clip (now in "How it works"): play it once it scrolls into view
      (muted), then gently loop its idle tail so the scene stays alive. Reduced
      motion / no IntersectionObserver simply holds the poster frame. */
