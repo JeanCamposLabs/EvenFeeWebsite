@@ -59,12 +59,6 @@
   var year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  /* Headline reading guide: a little after load (once the entrance settles),
-     sweep a blue highlight through the headline characters, left to right, to
-     lead the eye across the line. CSS honours prefers-reduced-motion. */
-  var heroH1 = document.querySelector(".hero h1");
-  if (heroH1) setTimeout(function () { heroH1.classList.add("is-guiding"); }, 2800);
-
   /* Dimension measurement video (Problem section): play it once it scrolls into
      view (muted, looping). Reduced motion / no IntersectionObserver simply holds
      the first frame. */
